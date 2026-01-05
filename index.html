@@ -2,173 +2,126 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+<title>Cek Khodam Nama Manusia</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cek Khodam Nama</title>
-
 <style>
-*{
-    box-sizing:border-box;
-}
 body{
-    margin:0;
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-    font-family:Arial, Helvetica, sans-serif;
-    color:#fff;
+  font-family:Arial, sans-serif;
+  background:linear-gradient(135deg,#0d0d1f,#2a2a4a);
+  color:#fff;
+  text-align:center;
+  padding:40px;
 }
-.card{
-    width:100%;
-    max-width:420px;
-    background:#111;
-    padding:25px 20px;
-    border-radius:18px;
-    box-shadow:0 20px 40px rgba(0,0,0,.6);
-    text-align:center;
-}
-.card h1{
-    margin:0 0 10px;
-    font-size:22px;
-}
-.card .note{
-    font-size:13px;
-    opacity:.8;
-    margin-bottom:18px;
+.box{
+  max-width:700px;
+  margin:auto;
+  background:rgba(0,0,0,.45);
+  padding:30px;
+  border-radius:18px;
+  box-shadow:0 0 25px rgba(0,0,0,.6);
 }
 input{
-    width:100%;
-    padding:12px 14px;
-    border-radius:10px;
-    border:none;
-    outline:none;
-    font-size:15px;
-    margin-bottom:14px;
-}
-.buttons{
-    display:flex;
-    gap:10px;
+  width:90%;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  margin:15px 0;
+  font-size:16px;
 }
 button{
-    flex:1;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    font-weight:bold;
-    font-size:14px;
-    cursor:pointer;
+  padding:12px 32px;
+  border:none;
+  border-radius:10px;
+  background:#ff9800;
+  font-weight:bold;
+  cursor:pointer;
+  font-size:16px;
 }
-.btn-main{
-    background:#ff9800;
-    color:#000;
+button:hover{background:#ffc107}
+#hasil{margin-top:20px;font-size:18px}
+.khodam{font-size:26px;color:#ffeb3b}
+.arti{
+  margin-top:15px;
+  background:rgba(255,255,255,.08);
+  padding:15px;
+  border-radius:12px;
+  text-align:left;
+  font-size:14px;
 }
-.btn-stop{
-    background:#444;
-    color:#fff;
-}
-.result{
-    margin-top:18px;
-    background:#1b1b1b;
-    padding:15px;
-    border-radius:12px;
-    min-height:80px;
-}
-.result h3{
-    margin:5px 0;
-}
-.result p{
-    margin:6px 0 0;
-    font-size:13px;
-    opacity:.75;
-}
-footer{
-    margin-top:18px;
-    font-size:12px;
-    opacity:.6;
-}
+.footer{margin-top:20px;font-size:12px;opacity:.8}
 </style>
 </head>
-
 <body>
 
-<div class="card">
-    <h1>🔮 Cek Khodam Nama</h1>
-    <div class="note">Hanya hiburan, jangan dibawa serius 😄</div>
+<div class="box">
+<h1>🔮 Cek Khodam Nama</h1>
+<p>Masukkan nama manusia</p>
 
-    <input type="text" id="nama" placeholder="Masukkan nama kamu">
+<input type="text" id="nama" placeholder="Contoh: Ahmad">
+<br>
+<button onclick="cekKhodam()">Cek Khodam</button>
 
-    <div class="buttons">
-        <button class="btn-main" onclick="cek()">Cek Khodam</button>
-        <button class="btn-stop" onclick="stopSuara()">Stop Suara</button>
-    </div>
+<div id="hasil"></div>
 
-    <div class="result" id="hasil">
-        <p>Hasil akan muncul di sini</p>
-    </div>
-
-    <footer>© 2026 • Cek Khodam Terkunci</footer>
+<div class="footer">
+⚠️ Hiburan & simbol budaya, bukan fakta atau keyakinan.
+</div>
 </div>
 
 <script>
-// daftar khodam (boleh ditambah)
-const khodam = [
-"cakcak","suluh","boncel","pincang","kuraban","gayung bontot",
-"petot","kekenceng","gayung sinduk","kolaci","pariuk","panci nyeuru",
-"maung","singa","simeut","cileuh","pocong","hapuran","ranginang","dapros",
-"opak","kadal","meong","munding","macan tutul","tempe","tahu","oncom",
-"uyah","bawang","bayawak","aura putih","aura hitam",
-"jomblo ikhlas","punya pacar halu","kaya niat","miskin kuota",
-"dompet transparan","gaji numpang lewat",
-"pemarah tapi baik","pintar tapi males mikir",
-"sok bijak padahal bingung","sabar palsu",
-"ayam stres","kucing galau","lele sok jago"
+const khodamData = [
+ "Cakcak","Suluh","Boncel","Pincang","Kuraban","Gayung Bontot","Petot",
+ "Kekenceng","Gayung Sinduk","Kolaci","Pariuk","Panci","Nyeuru",
+ "Maung","Singa","Simeut","Cileuh","Pocong","Hapuran","Ranginang",
+ "Dapros","Opak","Kadal","Meong","Munding","Macan Tutul","Simet",
+ "Lauk","Tempe","Tahu","Oncom","Uyah","Bawang","Bayawak",
+ "Aura Putih","Aura Hitam","Angkasa","Bebek","Cacing","Babi",
+ "Kutu","Tumbila","Punya Pacar Cantik","Punya Istri Solehah",
+ "Punya Suami Soleh","Penyabar","Pemarah","Suka Bantu Orang",
+ "Ketipu","Suka Judi","Suka Maling","Cangcut","Muka Sange",
+ "Suka Usil","Pintar","Rajin Ibadah","Suka Nyandung",
+ "Suka Main Cewe","Kamu Jelek","Kamu Ganteng","Kamu Cantik",
+ "Suka Ngambek","Suka Morotin Uang Cewe","Playboy","Sok Ganteng"
 ];
 
-// hash agar hasil tidak berubah
-function hashNama(nama){
-    let hash = 0;
-    for(let i=0;i<nama.length;i++){
-        hash = nama.charCodeAt(i) + ((hash<<5)-hash);
-    }
-    return Math.abs(hash);
+function suaraBaca(teks){
+ if("speechSynthesis" in window){
+  const u = new SpeechSynthesisUtterance(teks);
+  u.lang = "id-ID";
+  u.rate = 0.95;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(u);
+ }
 }
 
-let suara;
+function cekKhodam(){
+ const nama = document.getElementById("nama").value.trim();
+ const hasil = document.getElementById("hasil");
+ if(nama===""){
+  hasil.innerHTML="⚠️ Masukkan nama terlebih dahulu";
+  return;
+ }
+ let hash=0;
+ for(let i=0;i<nama.length;i++){
+  hash+=nama.charCodeAt(i)*(i+1);
+ }
+ const khodam = khodamData[hash % khodamData.length];
 
-function cek(){
-    const input = document.getElementById("nama");
-    const nama = input.value.trim();
-    if(!nama){
-        alert("Masukkan nama dulu 😅");
-        return;
-    }
+ hasil.innerHTML = `
+ ✨ Nama: <b>${nama}</b><br>
+ Khodam Pendamping:<br>
+ <span class="khodam">${khodam}</span>
+ <div class="arti">
+ <b>Keterangan:</b><br>
+ ✨ JANGAN LUPA KASIH GIP Y ORANG BAIK  ✨ .
+ </div>
+ `;
 
-    const index = hashNama(nama.toLowerCase()) % khodam.length;
-    const hasil = khodam[index];
-
-    document.getElementById("hasil").innerHTML = `
-        <h3>👤 ${nama}</h3>
-        <h3>🔮 ${hasil}</h3>
-        <p>Hasil ini akan selalu sama untuk nama ini</p>
-    `;
-
-    bacaSuara(nama, hasil);
-}
-
-function bacaSuara(nama, hasil){
-    stopSuara();
-    suara = new SpeechSynthesisUtterance(
-        "Halo " + nama + ". Khodam kamu adalah " + hasil
-    );
-    suara.lang = "id-ID";
-    speechSynthesis.speak(suara);
-}
-
-function stopSuara(){
-    if(speechSynthesis.speaking){
-        speechSynthesis.cancel();
-    }
+ suaraBaca(
+  "Nama kamu " + nama +
+  ". Khodam pendamping kamu adalah " + khodam +
+  ""
+ );
 }
 </script>
 
